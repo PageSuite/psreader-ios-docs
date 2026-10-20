@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Page Not Found – PSReader</title>
+<script>
+// GitHub Pages shows this page for any URL that has no file, and can't
+// redirect. PSReaderUI's pages moved into PSReader's in 26.8.0, so send
+// their old URLs to the same page under PSReader, or to the closest page
+// that still exists when the API or guide is gone.
+(function () {
+    var match = /^\/psreader-ios-docs\/documentation\/psreaderui(\/.*)?$/i.exec(location.pathname);
+    if (!match) {
+        return;
+    }
+    document.documentElement.className = "moved";
+
+    var root = "/psreader-ios-docs/documentation/psreader";
+    var path = (match[1] || "").toLowerCase().replace(/\/+$/, "");
+
+    // PSReaderUI pages whose replacement has a different name.
+    var renamed = {
+        "/carousel-setup": "/setting-up-the-carousel",
+        "/deep-linking": "/presenting-the-prebuilt-reader",
+        "/demo-project": "/building-a-reader-app",
+        "/media-playback": "/media-and-links",
+        "/migration-guides": "/migrating-from-psreaderui",
+        "/paywall-integration": "/paywalls",
+        "/replica-and-feed-editions": "/edition-platforms",
+        "/standalone-view-controllers": "/embedding-prebuilt-screens",
+        "/theming-and-customization": "/configuring-the-prebuilt-ui",
+        "/psreaderuiversionnumber": "/psreaderversionnumber",
+        "/psreaderuiversionstring": "/psreaderversionstring"
+    };
+
+    // The page itself keeps its query and anchor, so a change log link
+    // still lands on its version. A renamed guide keeps the query only.
+    var candidates = [];
+    if (renamed[path]) {
+        candidates.push({ path: renamed[path], suffix: location.search });
+    } else {
+        candidates.push({ path: path, suffix: location.search + location.hash });
+        for (var parent = path.replace(/\/[^\/]*$/, ""); parent; parent = parent.replace(/\/[^\/]*$/, "")) {
+            candidates.push({ path: parent, suffix: location.search });
+        }
+    }
+    var fallback = { path: "/migrating-from-psreaderui", suffix: location.search };
+
+    function go(candidate) {
+        location.replace(root + candidate.path + candidate.suffix);
+    }
+
+    function tryCandidate(index) {
+        if (index === candidates.length) {
+            go(fallback);
+            return;
+        }
+        fetch(root + candidates[index].path + "/index.html", { method: "HEAD" })
+            .then(function (response) {
+                if (response.ok) {
+                    go(candidates[index]);
+                } else {
+                    tryCandidate(index + 1);
+                }
+            })
+            .catch(function () {
+                go(candidates[0]);
+            });
+    }
+
+    tryCandidate(0);
+})();
+</script>
+<style>
+    :root {
+        color-scheme: light dark;
+        --background: #ffffff;
+        --text: #1d1d1f;
+        --secondary: #6e6e73;
+        --link: #0066cc;
+    }
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --background: #000000;
+            --text: #f5f5f7;
+            --secondary: #a1a1a6;
+            --link: #2997ff;
+        }
+    }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--background);
+        color: var(--text);
+        font: 17px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    main {
+        max-width: 34em;
+        padding: 0 16px;
+        text-align: center;
+    }
+    h1 {
+        margin: 0 0 0.4em;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 1.2;
+    }
+    p {
+        margin: 0 0 0.8em;
+        color: var(--secondary);
+    }
+    a {
+        color: var(--link);
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .moved .not-found,
+    html:not(.moved) .moving {
+        display: none;
+    }
+</style>
+</head>
+<body>
+<main>
+    <div class="moving">
+        <h1>This page has moved</h1>
+        <p>PSReaderUI’s documentation is now part of the PSReader documentation. Taking you to the new page…</p>
+    </div>
+    <div class="not-found">
+        <h1>Page not found</h1>
+        <p>PSReaderUI’s documentation is now part of the PSReader documentation.</p>
+    </div>
+    <p><a href="/psreader-ios-docs/documentation/psreader">PSReader documentation</a></p>
+</main>
+</body>
+</html>
