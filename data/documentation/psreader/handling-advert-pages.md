@@ -29,9 +29,9 @@ edition, so third-party adverts can serve and in-article adverts appear:
 [Passing the App Configuration](/documentation/PSReader/Hosting-the-Reader#Passing-the-App-Configuration) adds an `appConfig`
 property to `ReaderScreenViewController`, the reader screen from
 [Hosting the Reader](/documentation/PSReader/Hosting-the-Reader), and passes it to the reader. Second, a view
-controller for Google Ad Manager pages, which have no built-in rendering.
-In `hostReader()`, with the other delegates, make the screen the reader’s
-advert delegate:
+controller for Google Ad Manager and Freestar pages, which have no built-in
+rendering. In `hostReader()`, with the other delegates, make the screen the
+reader’s advert delegate:
 
 ```swift
 reader.advertDelegate = self
@@ -48,11 +48,22 @@ extension ReaderScreenViewController: PSEditionReaderViewController.AdvertDelega
         }
         return GoogleAdPageViewController(page: page)
     }
+
+    func canRenderAdvertPage(_ page: PSEPage) -> Bool {
+        page.advertProvider == .googleAdManager
+    }
 }
 ```
 
 `GoogleAdPageViewController` is your advert page view controller, written
-as in [Rendering Advert Pages Yourself](/documentation/PSReader/Advertisements#Rendering-Advert-Pages-Yourself). In Swift 6
+as in [Rendering Advert Pages Yourself](/documentation/PSReader/Advertisements#Rendering-Advert-Pages-Yourself). The second
+method claims the pages it serves: the reader leaves out any page without
+built-in rendering that the delegate doesn’t claim, so set the delegate
+before the edition opens (see
+[Pages the Reader Leaves Out](/documentation/PSReader/Advertisements#Pages-the-Reader-Leaves-Out)). A page for a custom
+provider, Freestar for example ([`PSEAdvertProvider.custom(_:)`](/documentation/PSReader/PSEAdvertProvider/custom(_:))), needs a
+view controller of its own in the same way, built from the page’s
+[`thirdPartyAdvertConfig`](/documentation/PSReader/PSEPage/thirdPartyAdvertConfig). In Swift 6
 language mode, mark the conformance `@preconcurrency`; see
 [Swift 6 Language Mode](/documentation/PSReader/Hosting-the-Reader#Swift-6-Language-Mode).
 
@@ -124,7 +135,8 @@ func advertViewController(forPage page: PSEPage) -> PSEAdvertContentViewControll
 Pass the app configuration you open the edition with, and the base URL
 the advert content loads against, usually your publication’s website. The
 initializer returns `nil` for pages it can’t render, such as Google Ad
-Manager pages, and those pages stay blank.
+Manager and Freestar pages; with nothing from your delegate either, the
+reader leaves those pages out.
 
 ## Placing a Banner
 
@@ -175,8 +187,9 @@ own advert view controllers.
 The framework’s default, webview-only renderer for advert pages
 (`advert_html` / `advert_third_party`). No third-party native SDKs are
 involved — third-party ad tech (htlbid/aditude) runs inside the webview
-via the PageSuite hosted loader. Google Ad Manager pages have no
-framework default: clients supply a native Google ad through
+via the PageSuite hosted loader. Google Ad Manager pages, and pages
+for providers the framework doesn’t know, have no framework default:
+clients supply a native advert through
 `PSEditionReaderViewController.AdvertDelegate.advertViewController(forPage:)`. This class is
 public so overriding delegates can still fall back to it selectively.
 

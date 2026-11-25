@@ -32,7 +32,8 @@ protocol AdvertDelegate : AnyObject
 Without a delegate the reader renders adverts with its built-in
 [`PSEDefaultAdvertViewController`](/documentation/PSReader/PSEDefaultAdvertViewController), which covers HTML and image
 creatives. Provide a delegate to serve adverts from your own stack
-(for example Google Ad Manager).
+(for example Google Ad Manager or Freestar, which have no built-in
+rendering).
 
 To serve advert pages from your own reader screen, see
 [Handling Advert Pages](/documentation/PSReader/Handling-Advert-Pages).

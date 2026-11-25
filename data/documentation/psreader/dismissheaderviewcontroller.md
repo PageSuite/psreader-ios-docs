@@ -49,8 +49,9 @@ required. Supply `onClose` to perform custom behavior instead (for example
 when the carousel is embedded rather than presented).
 
 > Note: A dismiss button should remain reachable, so leave
-> ``doc://com.pagesuite.PSReader/documentation/PSReader/CarouselConfiguration/hidesHeaderOnScroll`` set to `false` (the
-> default) when using this header.
+> ``doc://com.pagesuite.PSReader/documentation/PSReader/CarouselConfiguration/ScrollHiding/header`` out of
+> ``doc://com.pagesuite.PSReader/documentation/PSReader/CarouselConfiguration/hidesOnScroll``, as it is by default, when using
+> this header.
 
 For the carousel’s other options, see [Setting Up the Carousel](/documentation/PSReader/Setting-Up-the-Carousel).
 

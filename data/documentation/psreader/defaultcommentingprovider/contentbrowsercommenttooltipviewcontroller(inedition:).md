@@ -21,7 +21,8 @@
 
 # contentBrowserCommentTooltipViewController(inEdition:)
 
-Returns a [`DefaultCommentTooltipViewController`](/documentation/PSReader/DefaultCommentTooltipViewController) for the content browser.
+Returns a [`DefaultCommentTooltipViewController`](/documentation/PSReader/DefaultCommentTooltipViewController) for the content
+browser, worded like the onboarding walkthrough’s Comments step.
 
 ```
 @MainActor func contentBrowserCommentTooltipViewController(inEdition source: PSEEditionSource) -> UIViewController?

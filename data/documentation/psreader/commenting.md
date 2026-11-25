@@ -46,8 +46,9 @@ the carousel opened it or one of your own screens did:
   prefetches counts for all its articles.
 - Article pages show the footer button, and a second button in the
   byline where the article’s template includes a commenting widget. The
-  article tooltip appears once, above the first footer button the reader
-  sees.
+  reader’s onboarding walkthrough introduces the footer button the first
+  time the reader opens; see
+  <doc://com.pagesuite.PSReader/documentation/PSReader/Customizing-the-Reader-Screen#The-Onboarding-Walkthrough>.
 - The content browser shows each article’s count beside a comment icon,
   with a trending icon once the count reaches the provider’s trending
   threshold. Its tooltip appears once, above the first count fully in view
@@ -267,22 +268,26 @@ above it, and slides it away with the reader’s chrome as the page scrolls.
 
 ## Tooltips
 
-[`DefaultCommentingProvider`](/documentation/PSReader/DefaultCommentingProvider) introduces commenting with two popovers:
+[`DefaultCommentingProvider`](/documentation/PSReader/DefaultCommentingProvider) introduces commenting in the content browser
+with a popover: the **content browser tooltip**, above the first comment
+count fully in view when the prebuilt content browser’s list comes to
+rest. It is drawn and worded like the onboarding walkthrough’s Comments
+step, with the same short label, title, and message, but stands alone:
+it appears once per install. The provider remembers in `UserDefaults`
+that it has appeared and returns `nil` from then on.
 
-- **Article tooltip**, above the footer button the first time an article
-  page with one is on screen.
-- **Content browser tooltip**, above the first comment count fully in view
-  when the prebuilt content browser’s list comes to rest.
-
-Each appears once per install. The provider remembers in `UserDefaults`
-that a tooltip has appeared and returns `nil` from then on.
-
-Change the text through the localization keys. To change the look,
-override
+The article view has no tooltip of its own. The reader’s onboarding
+walkthrough points at the footer button as its last step, so
 [`articleCommentTooltipViewController(inEdition:)`](/documentation/PSReader/DefaultCommentingProvider/articleCommentTooltipViewController(inEdition:))
-or
-[`contentBrowserCommentTooltipViewController(inEdition:)`](/documentation/PSReader/DefaultCommentingProvider/contentBrowserCommentTooltipViewController(inEdition:)),
-and track the shown state yourself, as the provider does:
+returns `nil`.
+
+Change the content browser tooltip’s text through the walkthrough’s
+Comments keys. To change its look, override
+[`contentBrowserCommentTooltipViewController(inEdition:)`](/documentation/PSReader/DefaultCommentingProvider/contentBrowserCommentTooltipViewController(inEdition:))
+and track the shown state yourself, as the provider does. The same
+override of
+[`articleCommentTooltipViewController(inEdition:)`](/documentation/PSReader/DefaultCommentingProvider/articleCommentTooltipViewController(inEdition:))
+adds an article tooltip back:
 
 ```swift
 final class BrandedCommentingProvider: DefaultCommentingProvider {
@@ -303,20 +308,20 @@ final class BrandedCommentingProvider: DefaultCommentingProvider {
 }
 ```
 
-The reader asks for the article tooltip each time such a page appears, so
-returning `nil` is how a tooltip stays dismissed. Return `nil` always to
-turn a tooltip off.
+The reader asks for a tooltip each time such a page appears, so returning
+`nil` is how a tooltip stays dismissed. Return `nil` always to turn the
+content browser tooltip off.
 
 ## Localization
 
 Commenting’s labels come from four [`LocalizedStringKey`](/documentation/PSReader/LocalizedStringKey) cases:
 
-|Key                                                                                                          |Default text                                                            |Where                  |
-|-------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|-----------------------|
-|``doc://com.pagesuite.PSReader/documentation/PSReader/LocalizedStringKey/commentButtonFooter(commentCount:)``|“View comments”, or “View comments (%lld)” with a count                 |Footer button          |
-|``doc://com.pagesuite.PSReader/documentation/PSReader/LocalizedStringKey/commentButtonByline(commentCount:)``|“Comment”, “1 comment”, or “%lld comments”                              |Byline button          |
-|``doc://com.pagesuite.PSReader/documentation/PSReader/LocalizedStringKey/commentArticleTooltip``             |“Get involved with community discussion here.”                          |Article tooltip        |
-|``doc://com.pagesuite.PSReader/documentation/PSReader/LocalizedStringKey/commentContentBrowserTooltip``      |“Today’s paper now has comments. Get involved in community discussions.”|Content browser tooltip|
+|Key                                                                                                          |Default text                                                            |Where                                                                                      |
+|-------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+|``doc://com.pagesuite.PSReader/documentation/PSReader/LocalizedStringKey/commentButtonFooter(commentCount:)``|“View comments”, or “View comments (%lld)” with a count                 |Footer button                                                                              |
+|``doc://com.pagesuite.PSReader/documentation/PSReader/LocalizedStringKey/commentButtonByline(commentCount:)``|“Comment”, “1 comment”, or “%lld comments”                              |Byline button                                                                              |
+|``doc://com.pagesuite.PSReader/documentation/PSReader/LocalizedStringKey/commentArticleTooltip``             |“Get involved with community discussion here.”                          |An article tooltip you add back                                                            |
+|``doc://com.pagesuite.PSReader/documentation/PSReader/LocalizedStringKey/commentContentBrowserTooltip``      |“Today’s paper now has comments. Get involved in community discussions.”|A content browser tooltip of your own; the default one uses the walkthrough’s Comments keys|
 
 Translate or reword them with a String Catalog, or through a
 [`LocalizationManager`](/documentation/PSReader/LocalizationManager) subclass. See [Localization](/documentation/PSReader/Localization).

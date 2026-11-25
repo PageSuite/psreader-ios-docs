@@ -35,7 +35,7 @@ struct SectionJumpNavigationSource
 [`targetSectionGUID`](/documentation/PSReader/SectionJumpNavigationSource/targetSectionGUID)
 
 The section the jump targets, matched as
-[`scrollTo(sectionGUID:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(sectionGUID:source:))
+[`scrollTo(sectionGUID:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(sectionGUID:source:animation:))
 matches it.
 
 [`sourcePage`](/documentation/PSReader/SectionJumpNavigationSource/sourcePage)

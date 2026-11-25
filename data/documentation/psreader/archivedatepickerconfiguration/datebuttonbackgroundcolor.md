@@ -26,3 +26,7 @@ Background color of the date selection button.
 ```
 var dateButtonBackgroundColor: UIColor
 ```
+
+## Discussion
+
+Defaults to clear; the button is drawn as an outline.

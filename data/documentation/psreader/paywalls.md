@@ -30,7 +30,7 @@ var globalConfig = GlobalConfiguration(apiKey: "API_KEY", accountGUID: "ACCOUNT_
 globalConfig.paywallDelegate = AppPaywallDelegate()
 ```
 
-![A sample paywall presented over the reader.](images/com.pagesuite.PSReader/paywall-over-reader~dark@2x.png)
+![A sample paywall presented over the reader.](images/com.pagesuite.PSReader/paywall-over-reader@2x.png)
 
 A delegate that sends everyone without a subscription to the same
 paywall:

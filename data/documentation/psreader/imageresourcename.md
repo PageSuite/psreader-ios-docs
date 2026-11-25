@@ -59,6 +59,24 @@ Back/dismiss button styled for Liquid Glass navigation bars (iOS 26+).
 
 Close button shown when dismissing an article popover back to the PDF page.
 
+[`ImageResourceName.contents`](/documentation/PSReader/ImageResourceName/contents)
+
+Contents button in the reader navigation bar where the system places
+a vertical bar, such as on iPhone Duo. Elsewhere, or if this is
+`nil`, the button shows its text.
+
+[`ImageResourceName.editions`](/documentation/PSReader/ImageResourceName/editions)
+
+Editions button in the reader navigation bar where the system places
+a vertical bar, such as on iPhone Duo. Elsewhere, or if this is
+`nil`, the button shows its text.
+
+[`ImageResourceName.bookmarks`](/documentation/PSReader/ImageResourceName/bookmarks)
+
+Bookmarks button in the bookmarks reader’s navigation bar where the
+system places a vertical bar, such as on iPhone Duo. Elsewhere, or if
+this is `nil`, the button shows its text.
+
 [`ImageResourceName.listen`](/documentation/PSReader/ImageResourceName/listen)
 
 Text-to-speech listen button in the reader navigation bar.
@@ -88,6 +106,11 @@ Text size adjustment button in the reader navigation bar.
 [`ImageResourceName.search`](/documentation/PSReader/ImageResourceName/search)
 
 Search icon in the reader settings menu.
+
+[`ImageResourceName.onboarding`](/documentation/PSReader/ImageResourceName/onboarding)
+
+Icon of the reader settings menu row that replays the onboarding
+walkthrough.
 
 [`ImageResourceName.settingsReader`](/documentation/PSReader/ImageResourceName/settingsReader)
 

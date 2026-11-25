@@ -31,8 +31,8 @@ var advertDelegate: AdvertDelegate?
 ## Discussion
 
 Without it, the reader shows no banners. Advert pages still render
-with the built-in web view, except Google Ad Manager pages, which
-stay blank.
+with the built-in web view, except Google Ad Manager and Freestar
+pages, which the reader leaves out.
 
 > SeeAlso: <doc://com.pagesuite.PSReader/documentation/PSReader/Advertisements>
 

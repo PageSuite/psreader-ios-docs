@@ -39,7 +39,7 @@ legacy replica editions depending on your publication’s backend system.
 
 ### Archives and Kiosks
 
-[`CarouselViewController.ContentType.feedArchive(guid:publicationName:config:)`](/documentation/PSReader/CarouselViewController/ContentType/feedArchive(guid:publicationName:config:))
+[`CarouselViewController.ContentType.feedArchive(guid:publicationName:supplements:config:)`](/documentation/PSReader/CarouselViewController/ContentType/feedArchive(guid:publicationName:supplements:config:))
 
 An archive screen for editions on PageSuite’s current system,
 classic PDF or responsive.

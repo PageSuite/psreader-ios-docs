@@ -499,11 +499,12 @@ attribute has no effect.
 ## Navigating
 
 Programmatic navigation goes through the `scrollTo` family: by spread index
-([`scrollTo(index:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(index:source:))), to the front,
-or to a page, article, or section, either as a model object or by GUID.
-Each call takes an optional `source` token that the reader hands back,
-untouched, to `willScrollTo`. Tag your own navigation with any value you
-like, and you can tell it apart from user swipes, which report `nil`:
+([`scrollTo(index:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(index:source:animation:))),
+to the front, or to a page, article, or section, either as a model object
+or by GUID. Each call takes an optional `source` token that the reader
+hands back, untouched, to `willScrollTo`. Tag your own navigation with any
+value you like, and you can tell it apart from user swipes, which report
+`nil`:
 
 ```swift
 struct ContentsJump {}
@@ -522,6 +523,16 @@ The reader tags its own navigation too: a link or hotspot inside a page
 reports a [`PageJumpNavigationSource`](/documentation/PSReader/PageJumpNavigationSource), [`ArticleJumpNavigationSource`](/documentation/PSReader/ArticleJumpNavigationSource),
 or [`SectionJumpNavigationSource`](/documentation/PSReader/SectionJumpNavigationSource), and restoring the position after
 `reloadData()` reports a [`ReloadDataNavigationSource`](/documentation/PSReader/ReloadDataNavigationSource).
+
+The reader animates each move, except a switch between a classic PDF
+edition’s PDF pages and its article pages. To decide for yourself, pass a
+[`PSEditionScrollAnimation`](/documentation/PSReader/PSEditionScrollAnimation): `.disabled` moves without animation, for
+example to restore the page behind a screen as it closes, and `.enabled`
+always animates:
+
+```swift
+reader.scrollTo(page: page, animation: .disabled)
+```
 
 ## Building the Chrome
 
@@ -782,6 +793,10 @@ How many pages the reader lays out per spread.
 How the reader fits PDF pages inside the viewport.
 
 ### Navigating
+
+[`PSEditionScrollAnimation`](/documentation/PSReader/PSEditionScrollAnimation)
+
+How the edition reader animates a programmatic move to another page.
 
 [`ArticleJumpNavigationSource`](/documentation/PSReader/ArticleJumpNavigationSource)
 

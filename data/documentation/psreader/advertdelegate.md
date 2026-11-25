@@ -39,8 +39,11 @@ In addition to banners, editions can contain **full-page advert pages**
 the SDK’s built-in webview implementation; implement
 [`advertViewController(forAdvertPage:inPublished:edition:)`](/documentation/PSReader/AdvertDelegate/advertViewController(forAdvertPage:inPublished:edition:)) to override
 that rendering with your own view controller — required for Google Ad
-Manager advert pages, which have no built-in implementation and are
-otherwise left blank.
+Manager pages and for custom providers such as Freestar, which have no
+built-in implementation.
+Claim those through
+[`canRenderAdvertPage(_:inPublished:edition:)`](/documentation/PSReader/AdvertDelegate/canRenderAdvertPage(_:inPublished:edition:)); the reader leaves out
+any such page nobody can render.
 
 ## Usage
 

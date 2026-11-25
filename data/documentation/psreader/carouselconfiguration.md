@@ -40,7 +40,7 @@ and integration with paywalls or navigation controllers.
 ```swift
 var carouselConfig = CarouselConfiguration(globalConfig: globalConfig)
 carouselConfig.embedInNavigationController = false
-carouselConfig.hidesHeaderOnScroll = true
+carouselConfig.hidesOnScroll = .header
 
 let carousel = CarouselViewController(
     globalConfig: globalConfig,
@@ -78,14 +78,17 @@ Configuration for the primary section ribbon displayed horizontally at the top o
 
 Configuration for the optional subsection ribbon displayed beneath the section ribbon.
 
-### Header
+### Hiding on Scroll
 
-[`hidesHeaderOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesHeaderOnScroll)
+[`hidesOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesOnScroll)
 
-Controls whether the carousel header (supplied via
-[`init(globalConfig:carouselConfig:header:sections:)`](/documentation/PSReader/CarouselViewController/init(globalConfig:carouselConfig:header:sections:)))
-hides as the content scrolls and reappears when scrolling back up or
-changing page.
+The parts of the carousel’s chrome that hide as the content scrolls down, and
+reappear when it scrolls back up or changes page. See [`CarouselConfiguration.ScrollHiding`](/documentation/PSReader/CarouselConfiguration/ScrollHiding).
+
+[`CarouselConfiguration.ScrollHiding`](/documentation/PSReader/CarouselConfiguration/ScrollHiding)
+
+An option set of the parts of the carousel’s chrome that hide as the content
+scrolls down, and reappear when it scrolls back up or changes page.
 
 ### Fitting Into Your Layout
 
@@ -106,4 +109,10 @@ Defines which safe-area edges should be ignored by the carousel interface.
 Optional delegate responsible for handling paywall interactions for content
 accessed via the carousel. If set, the SDK uses this delegate to present paywalls
 when accessing premium or protected content.
+
+### Deprecated
+
+[`hidesHeaderOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesHeaderOnScroll)
+
+Whether [`hidesOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesOnScroll) includes [`header`](/documentation/PSReader/CarouselConfiguration/ScrollHiding/header).
 

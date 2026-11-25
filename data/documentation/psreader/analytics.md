@@ -17,8 +17,8 @@ your analytics provider.
 ## Overview
 
 The prebuilt UI reports what the user does as analytics events: edition
-launches, page views, shares, downloads, bookmarks, searches, and carousel
-navigation. [`EventChannel`](/documentation/PSReader/EventChannel) delivers them to the subscribers you
+launches, page views, reader interactions, shares, downloads, bookmarks,
+searches, and carousel navigation. [`EventChannel`](/documentation/PSReader/EventChannel) delivers them to the subscribers you
 register; sending them on to an analytics provider is up to you.
 Building a custom UI? See [Reporting Analytics](/documentation/PSReader/Reporting-Analytics).
 
@@ -119,6 +119,10 @@ final class AnalyticsForwarder: EventSubscriber {
             track("feedEditionOtherPageView", context)
         case .feedEditionShare(let context):
             track("feedEditionShare", context)
+        case .feedEditionArticleTapped(let article, let context):
+            ReaderAnalytics.track("feedEditionArticleTapped", published: context.published,
+                                  page: context.page,
+                                  properties: ["article": article.articleguid ?? ""])
 
         case .feedEditionDownloaded(let published):
             ReaderAnalytics.track("feedEditionDownloaded", published: published)
@@ -150,7 +154,7 @@ final class AnalyticsForwarder: EventSubscriber {
 
     private func track(_ name: String, _ context: EventChannel.FeedEditionEventContext) {
         ReaderAnalytics.track(name, published: context.published,
-                              page: context.pageSpread?.referencePage())
+                              page: context.page ?? context.pageSpread?.referencePage())
     }
 }
 ```
@@ -177,8 +181,9 @@ opens:
   or subsection comes into view. Its archive, bookmarks, downloads, and
   search sections report as the screens below do.
 - ``doc://com.pagesuite.PSReader/documentation/PSReader/FeedReaderViewController`` reports `feedEditionLaunch` once the
-  edition opens, a page view each time a page settles, and
-  `feedEditionShare` from its share button.
+  edition opens, a page view each time a page settles, `feedEditionShare`
+  from its share button, and the reader interactions below: the contents
+  browser, article taps, link taps, printing, and text-size changes.
 - ``doc://com.pagesuite.PSReader/documentation/PSReader/ArchiveViewController`` and ``doc://com.pagesuite.PSReader/documentation/PSReader/DownloadsViewController`` report
   nothing themselves; the reader they open reports as above.
 - ``doc://com.pagesuite.PSReader/documentation/PSReader/BookmarksViewController`` opens bookmarks in the same reader. A
@@ -196,12 +201,9 @@ carousel.
 
 > Replica: Replica editions report `replica…` events in place of the
 > `feedEdition…` ones, with ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/ReplicaEventContext`` and
-> ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/ReplicaArticleEventContext`` as their contexts. In
-> replica editions the reader also reports content-browser navigation,
-> link taps, printing, and article text-size changes, which have no
-> equivalent on the current system. Carousel and search events are the same for both systems.
-> To find out which system a publication is on, see
-> <doc://com.pagesuite.PSReader/documentation/PSReader/Edition-Platforms>.
+> ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/ReplicaArticleEventContext`` as their contexts. Carousel
+> and search events are the same for both systems. To find out which
+> system a publication is on, see <doc://com.pagesuite.PSReader/documentation/PSReader/Edition-Platforms>.
 
 ## Event Categories
 
@@ -269,8 +271,7 @@ for each bookmark it shows, with the [`PSEBookmark`](/documentation/PSReader/PSE
 > Replica: Replica editions report `replicaPageView(_:)`, whose context
 > gives the page number and, for a double-page spread, `leftPageNumber`
 > and `rightPageNumber`. An article shown in the reader reports
-> `replicaArticleView(_:)`, and tapping an article on a page reports
-> `replicaArticleTapped(_:)`.
+> `replicaArticleView(_:)`.
 
 ### Downloads
 
@@ -317,8 +318,39 @@ context, and it doesn’t tell you whether the user went on to share.
 in the offline reader of saved bookmarks, carrying the [`PSEBookmark`](/documentation/PSReader/PSEBookmark).
 
 > Replica: `replicaPageShare(_:)` and `replicaArticlePageShare(_:)` report
-> shares in replica editions, and `replicaPagePrint(_:)` and
-> `replicaArticlePagePrint(_:)` report printing.
+> shares in replica editions.
+
+### Reader Interactions
+
+The prebuilt reader also reports what the user does with its controls.
+Each of these events carries a [`EventChannel.FeedEditionEventContext`](/documentation/PSReader/EventChannel/FeedEditionEventContext)
+whose `pageSpread` is the spread on screen at the time, unless noted:
+
+- ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionContentBrowserOpen(_:)``: the
+  user opened the contents browser.
+- ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionContentBrowserSectionTapped(_:)``:
+  the user tapped a section in the contents browser. Its `pageSpread` is
+  the spread the reader was showing when the browser opened.
+- ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionArticleTapped(_:_:)``: the user
+  tapped an article on a page, and the reader is jumping to it, with the
+  ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEArticle`` they tapped. The context’s `page` is the page they tapped
+  it on, which can show several articles, as a section front does; the
+  event’s article says which one the user chose. The article’s own page
+  then reports `feedEditionArticleView`.
+- ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionLinkTapped(_:_:)``: the user
+  tapped a link on a page, with the link’s URL.
+- ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionPrint(_:)``: the user chose
+  Print in the reader’s settings menu, before the print sheet appears.
+- ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionTextSizeChange(_:oldValue:newValue:)``:
+  the user chose a different article text size, with the
+  ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEArticleTextSize`` before and after. Choosing the current size
+  again sends nothing.
+
+> Replica: Replica editions report `replicaPageBrowserOpen(_:)`,
+> `replicaPageBrowserSectionTapped(_:)`, `replicaArticleTapped(_:)`,
+> `replicaPageLinkTapped(_:_:)`, and `replicaPagePrint(_:)`, with
+> `replicaArticle…` twins when the reader is showing an article, and
+> `replicaArticleTextSizeChange(_:oldValue:newValue:)` for text size.
 
 ### Search
 
@@ -333,10 +365,15 @@ user taps a result, with the [`SearchResult`](/documentation/PSReader/SearchResu
 Most events carry a context; the rest carry a model directly.
 
 - ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/FeedEditionEventContext`` comes with launches, page
-  views, and shares. Its ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/FeedEditionEventContext/published``,
-  ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/FeedEditionEventContext/edition``, and
-  ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/FeedEditionEventContext/pageSpread`` are optional. Read
-  the page the event is about with `pageSpread?.referencePage()`. Identify
+  views, shares, and reader interactions. Its ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/FeedEditionEventContext/published``,
+  ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/FeedEditionEventContext/edition``,
+  ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/FeedEditionEventContext/pageSpread``, and
+  ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/FeedEditionEventContext/page`` are optional. Read the
+  page the event is about from `page`, which is set when the event came
+  from one page of the spread, otherwise with
+  `pageSpread?.referencePage()`. An article page holds its one article in ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEPage/articles``, so an
+  article view, or a share or print on an article page, reads it with
+  `referencePage()?.articles?.first`. Identify
   the edition by its ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEPublished/editionGUID`` and the publication by
   ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEPublished/applicationGUID``, which holds the publication GUID.
 - ``doc://com.pagesuite.PSReader/documentation/PSReader/EventChannel/CarouselEventContext`` comes with `carouselView`.

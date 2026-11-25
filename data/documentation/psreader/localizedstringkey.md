@@ -170,6 +170,98 @@ Default value: `"30 Days"`
 Clear cache time - never delete.
 Default value: `"Never"`
 
+### Onboarding Walkthrough
+
+[`LocalizedStringKey.readerOnboardingEyebrow`](/documentation/PSReader/LocalizedStringKey/readerOnboardingEyebrow)
+
+Short label above every title in the reader’s onboarding walkthrough.
+Default value: `"GET TO KNOW YOUR READER"`
+
+[`LocalizedStringKey.readerOnboardingContentsTitle`](/documentation/PSReader/LocalizedStringKey/readerOnboardingContentsTitle)
+
+Title of the onboarding tooltip that points at the Contents button.
+Default value: `"Find your way around"`
+
+[`LocalizedStringKey.readerOnboardingContentsBody`](/documentation/PSReader/LocalizedStringKey/readerOnboardingContentsBody)
+
+Body of the onboarding tooltip that points at the Contents button.
+Default value: `"Switch between pages, browse sections, or jump straight to articles with a single tap."`
+
+[`LocalizedStringKey.readerOnboardingListenTitle`](/documentation/PSReader/LocalizedStringKey/readerOnboardingListenTitle)
+
+Title of the onboarding tooltip that points at the Listen button.
+Default value: `"Listen on the go"`
+
+[`LocalizedStringKey.readerOnboardingListenBody`](/documentation/PSReader/LocalizedStringKey/readerOnboardingListenBody)
+
+Body of the onboarding tooltip that points at the Listen button.
+Default value: `"Let us read the paper to you. Sit back and listen to full articles narrated seamlessly."`
+
+[`LocalizedStringKey.readerOnboardingShareTitle`](/documentation/PSReader/LocalizedStringKey/readerOnboardingShareTitle)
+
+Title of the onboarding tooltip that points at the Share button.
+Default value: `"Share a great story"`
+
+[`LocalizedStringKey.readerOnboardingShareBody`](/documentation/PSReader/LocalizedStringKey/readerOnboardingShareBody)
+
+Body of the onboarding tooltip that points at the Share button.
+Default value: `"Send an article to a friend, or share it with the world. Good stories deserve company."`
+
+[`LocalizedStringKey.readerOnboardingBookmarkTitle`](/documentation/PSReader/LocalizedStringKey/readerOnboardingBookmarkTitle)
+
+Title of the onboarding tooltip that points at the Bookmark button.
+Default value: `"Save it for later"`
+
+[`LocalizedStringKey.readerOnboardingBookmarkBody`](/documentation/PSReader/LocalizedStringKey/readerOnboardingBookmarkBody)
+
+Body of the onboarding tooltip that points at the Bookmark button.
+Default value: `"Keep the stories you love. Tap the bookmark to add an article to your saved collection."`
+
+[`LocalizedStringKey.readerOnboardingSettingsTitle`](/documentation/PSReader/LocalizedStringKey/readerOnboardingSettingsTitle)
+
+Title of the onboarding tooltip that points at the Settings button.
+Default value: `"Make it your own"`
+
+[`LocalizedStringKey.readerOnboardingSettingsBody`](/documentation/PSReader/LocalizedStringKey/readerOnboardingSettingsBody)
+
+Body of the onboarding tooltip that points at the Settings button.
+Default value: `"Adjust your reading preferences and settings for an experience that feels right for you."`
+
+[`LocalizedStringKey.readerOnboardingCommentsTitle`](/documentation/PSReader/LocalizedStringKey/readerOnboardingCommentsTitle)
+
+Title of the onboarding tooltip that points at the article’s comment bar.
+Default value: `"Commenting"`
+
+[`LocalizedStringKey.readerOnboardingCommentsBody`](/documentation/PSReader/LocalizedStringKey/readerOnboardingCommentsBody)
+
+Body of the onboarding tooltip that points at the article’s comment bar.
+Default value: `"Get involved with community discussion here."`
+
+[`LocalizedStringKey.readerOnboardingNextButtonTitle`](/documentation/PSReader/LocalizedStringKey/readerOnboardingNextButtonTitle)
+
+Button that moves to the next onboarding tooltip.
+Default value: `"Next"`
+
+[`LocalizedStringKey.readerOnboardingDoneButtonTitle`](/documentation/PSReader/LocalizedStringKey/readerOnboardingDoneButtonTitle)
+
+Button on the last onboarding tooltip, which finishes the walkthrough.
+Default value: `"Done"`
+
+[`LocalizedStringKey.readerOnboardingSettingsMenuItem`](/documentation/PSReader/LocalizedStringKey/readerOnboardingSettingsMenuItem)
+
+Settings menu row that plays the onboarding walkthrough again.
+Default value: `"Get to know your reader"`
+
+[`LocalizedStringKey.readerOnboardingCloseButtonAccessibilityLabel`](/documentation/PSReader/LocalizedStringKey/readerOnboardingCloseButtonAccessibilityLabel)
+
+VoiceOver label of the close button on each onboarding tooltip.
+Default value: `"Close"`
+
+[`LocalizedStringKey.readerOnboardingProgressAccessibilityLabel(step:count:)`](/documentation/PSReader/LocalizedStringKey/readerOnboardingProgressAccessibilityLabel(step:count:))
+
+VoiceOver label of the progress dots on each onboarding tooltip.
+Default value: `"Step %lld of %lld"`
+
 ### Download While Reading Question
 
 [`LocalizedStringKey.downloadWhileReadingAlertTitle`](/documentation/PSReader/LocalizedStringKey/downloadWhileReadingAlertTitle)

@@ -84,6 +84,59 @@ button’s icon removes the button, which is how you drop the bookmark
 button from an app without bookmarks, for example. See
 [Icons](/documentation/PSReader/Theming#Icons).
 
+## The Onboarding Walkthrough
+
+The reader introduces its controls with a sequence of tooltips, one per
+control on screen, left to right across the navigation bar: Contents,
+Listen, Share, Bookmark, then Settings, and last the comment bar along
+the bottom of an article. It runs twice on a device: the first time the
+reader opens on a page, for the edition view, and again the first time
+an article is on screen, for the article view, which adds Listen and the
+comment bar. Each tooltip points at its control and shows a short label,
+a title, body text, progress dots, a Next button, and a close button.
+Next moves to the following tooltip, the last tooltip’s button, Done,
+finishes the walkthrough, and the close button or a tap outside the
+tooltip ends it early. Once a view’s walkthrough has appeared, it doesn’t
+appear on the device again, even if the user leaves part-way. Controls the
+reader isn’t showing are skipped: buttons without an icon from the
+[`AssetDelegate`](/documentation/PSReader/AssetDelegate), Listen, Share, and Bookmark on pages that can’t be
+listened to, shared, or bookmarked, and the comment bar on pages without
+commenting.
+
+If the reader also asks whether to download editions while reading (see
+[Downloads and Offline Reading](/documentation/PSReader/Downloads-and-Offline-Reading)), the walkthrough waits for the
+answer.
+
+[`ReaderOnboardingConfiguration`](/documentation/PSReader/ReaderOnboardingConfiguration), at [`onboarding`](/documentation/PSReader/ReaderConfiguration/onboarding),
+turns the walkthrough off, replaces its text, and styles the tooltips.
+Every string has a default that translations in your app can change like
+the SDK’s other strings (see [Localization](/documentation/PSReader/Localization)). Set a string in the
+configuration to replace the default outright, for example with wording
+from your server:
+
+```swift
+readerConfig.onboarding.eyebrow = "WELCOME TO THE E-EDITION"
+readerConfig.onboarding.contents = .init(
+    title: "Jump around",
+    body: "Browse sections, pages, and articles from here."
+)
+readerConfig.onboarding.doneButtonTitle = "Start reading"
+readerConfig.onboarding.buttonBackgroundColor = .systemIndigo
+```
+
+To never show the walkthrough:
+
+```swift
+readerConfig.onboarding.isEnabled = false
+```
+
+The settings menu also offers a “Get to know your reader” row that plays
+the current view’s walkthrough again. [`isSettingsMenuItemEnabled`](/documentation/PSReader/ReaderOnboardingConfiguration/isSettingsMenuItemEnabled)
+removes the row; turning the walkthrough off removes it too. Its title is
+[`LocalizedStringKey.readerOnboardingSettingsMenuItem`](/documentation/PSReader/LocalizedStringKey/readerOnboardingSettingsMenuItem) and its icon
+[`ImageResourceName.onboarding`](/documentation/PSReader/ImageResourceName/onboarding), so translations and the
+[`AssetDelegate`](/documentation/PSReader/AssetDelegate) change them like any other row’s.
+
 ## The Content Browser
 
 The Contents button opens the content browser over the pages. It lists
@@ -148,6 +201,7 @@ The Settings button opens a menu of the user’s reading preferences:
 |Reader Settings: double page mode                  |``doc://com.pagesuite.PSReader/documentation/PSReader/SettingsConfiguration/isDoublePageEnabled``                   |                                                                                                                                                    |
 |Reader Settings: show content browser on first load|``doc://com.pagesuite.PSReader/documentation/PSReader/SettingsConfiguration/isShowContentBrowserOnFirstLoadEnabled``|``doc://com.pagesuite.PSReader/documentation/PSReader/SettingsConfiguration/showContentBrowserOnFirstLoadDefault`` sets the default                 |
 |Data Settings: download rows                       |Each row’s own property                                                                                             |<doc://com.pagesuite.PSReader/documentation/PSReader/Downloads-and-Offline-Reading#Download-Settings-in-the-Prebuilt-Reader>                        |
+|Get to know your reader                            |The onboarding walkthrough is on                                                                                    |``doc://com.pagesuite.PSReader/documentation/PSReader/ReaderOnboardingConfiguration/isSettingsMenuItemEnabled``                                     |
 |Your rows                                          |You add them                                                                                                        |``doc://com.pagesuite.PSReader/documentation/PSReader/SettingsConfiguration/additionalItems``                                                       |
 
 ![The reader's settings menu, with a callout on a custom row added with a settings menu item.](images/com.pagesuite.PSReader/reader-settings-menu-annotated@2x.png)
@@ -269,6 +323,12 @@ Configuration object for customizing the prebuilt reader.
 [`ReaderNavigationBarConfiguration`](/documentation/PSReader/ReaderNavigationBarConfiguration)
 
 Configuration object for customizing reader navigation bars.
+
+### Onboarding Walkthrough
+
+[`ReaderOnboardingConfiguration`](/documentation/PSReader/ReaderOnboardingConfiguration)
+
+Configuration object for the reader’s onboarding walkthrough.
 
 ### Content Browser
 

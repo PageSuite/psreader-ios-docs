@@ -155,9 +155,13 @@ The comment count at which the trending icon appears in the content browser.
 
 [`articleCommentTooltipViewController(inEdition:)`](/documentation/PSReader/DefaultCommentingProvider/articleCommentTooltipViewController(inEdition:))
 
-Returns a [`DefaultCommentTooltipViewController`](/documentation/PSReader/DefaultCommentTooltipViewController) for the article view.
+Returns `nil`: the reader’s onboarding walkthrough introduces the
+comment bar, so the default provider shows no tooltip of its own in
+the article view. Override to show one, for example a
+[`DefaultCommentTooltipViewController`](/documentation/PSReader/DefaultCommentTooltipViewController).
 
 [`contentBrowserCommentTooltipViewController(inEdition:)`](/documentation/PSReader/DefaultCommentingProvider/contentBrowserCommentTooltipViewController(inEdition:))
 
-Returns a [`DefaultCommentTooltipViewController`](/documentation/PSReader/DefaultCommentTooltipViewController) for the content browser.
+Returns a [`DefaultCommentTooltipViewController`](/documentation/PSReader/DefaultCommentTooltipViewController) for the content
+browser, worded like the onboarding walkthrough’s Comments step.
 

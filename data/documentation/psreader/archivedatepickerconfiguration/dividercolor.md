@@ -1,7 +1,7 @@
 <!--
 {
   "availability" : [
-
+    "*: -"
   ],
   "documentType" : "symbol",
   "framework" : "PSReader",
@@ -26,3 +26,7 @@ Color of dividers separating UI elements within the date picker.
 ```
 var dividerColor: UIColor
 ```
+
+## Discussion
+
+The date picker no longer draws a divider, so this value has no effect.

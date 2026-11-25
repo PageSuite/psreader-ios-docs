@@ -41,8 +41,9 @@ Optional carousel configuration object.
 
 Optional view controller pinned above the carousel
 content. The SDK owns its layout and, when
-[`hidesHeaderOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesHeaderOnScroll) is `true`,
-hides it as the content scrolls.
+[`hidesOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesOnScroll) includes
+[`header`](/documentation/PSReader/CarouselConfiguration/ScrollHiding/header), hides it
+as the content scrolls.
 
 `sections`
 

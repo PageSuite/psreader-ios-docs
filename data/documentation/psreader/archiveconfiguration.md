@@ -153,7 +153,7 @@ Base domain used for loading edition content.
 
 The publication type used when searching this publication’s content.
 
-### Replica Editions
+### Supplements
 
 [`supplementsTitleLabel`](/documentation/PSReader/ArchiveConfiguration/supplementsTitleLabel)
 
@@ -162,4 +162,9 @@ Configuration for supplements ribbon title.
 [`supplementsBackgroundColor`](/documentation/PSReader/ArchiveConfiguration/supplementsBackgroundColor)
 
 Background color displayed behind the supplements section view.
+
+[`supplementGroupsDomain`](/documentation/PSReader/ArchiveConfiguration/supplementGroupsDomain)
+
+Base URL of the API that lists the publication groups named as a
+feed archive’s supplements.
 

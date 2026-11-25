@@ -24,6 +24,40 @@ PSReader SDK release.
 > major version bump. We recommend pinning to a specific version and reviewing
 > this change log before upgrading.
 
+## v26.9.0
+
+- Added support for iPhone Duo. The reader’s buttons move into the
+  system’s side bar, and the archive and reader lay out beside it.
+- Added an onboarding walkthrough to the reader. **Behavior change:** On
+  by default, so users see it once after updating.
+  See: <doc://com.pagesuite.PSReader/documentation/PSReader/Customizing-the-Reader-Screen#The-Onboarding-Walkthrough>.
+- Added a supplements row to feed edition archives.
+  See: <doc://com.pagesuite.PSReader/documentation/PSReader/Setting-Up-the-Carousel#Defining-Sections-Yourself>.
+- Added reader interaction analytics events for feed editions.
+  See: <doc://com.pagesuite.PSReader/documentation/PSReader/Analytics#Reader-Interactions>.
+- Added support for third party advert providers the SDK doesn’t know.
+  **Breaking change:** ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider`` is no longer a `String` enum.
+  See: <doc://com.pagesuite.PSReader/documentation/PSReader/Updating-the-SDK#v2690>.
+- The reader now skips pages it can’t render instead of showing them
+  blank. **Behavior change:** This includes Google Ad Manager pages your
+  advert delegate doesn’t render.
+  See: <doc://com.pagesuite.PSReader/documentation/PSReader/Advertisements#Pages-the-Reader-Leaves-Out>.
+- Added control over the reader’s page-move animations.
+  See: ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEditionScrollAnimation``.
+- Restyled the archive’s date button and supplements row.
+  **Behavior change:** The date button’s color options have changed.
+  See: <doc://com.pagesuite.PSReader/documentation/PSReader/Updating-the-SDK#v2690>.
+- Text-to-speech now reads lists, and no longer stops early on stories
+  without paragraph tags.
+- Removed all bundled fonts.
+- Built with Xcode 27.2 and Swift 6.4.2. **Breaking change:** Requires
+  Xcode 27.2 or later and iOS 15 or later.
+  See: <doc://com.pagesuite.PSReader/documentation/PSReader/Updating-the-SDK#v2690>.
+
+> Note: This release introduces new localized string keys for the
+> walkthrough and the legacy replica reader’s browser titles, and a new
+> image resource for the walkthrough. See: <doc://com.pagesuite.PSReader/documentation/PSReader/Updating-the-SDK#v2690>.
+
 ## v26.8.0
 
 - Merged PSReaderUI into the PSReader module. The prebuilt UI and the core
@@ -154,7 +188,7 @@ PSReader SDK release.
 ## v26.4.1
 
 - Added optional `publicationName` parameter to
-  ``doc://com.pagesuite.PSReader/documentation/PSReader/CarouselViewController/ContentType/feedArchive(guid:publicationName:config:)``.
+  ``doc://com.pagesuite.PSReader/documentation/PSReader/CarouselViewController/ContentType/feedArchive(guid:publicationName:supplements:config:)``.
 - Adjusted dynamic archive publication naming logic for improved publication
   names in downloads and other UI contexts. **Behavior change:** Publication
   names may differ from previous versions. Contact support if a name needs

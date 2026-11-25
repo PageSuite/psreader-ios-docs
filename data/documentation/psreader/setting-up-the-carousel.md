@@ -136,11 +136,11 @@ PageSuite and builds the section from it:
 
 **iPhone:**
 
-![An edition archive with its date picker open on a month.](images/com.pagesuite.PSReader/archive-date-picker@2x.png)
+![An edition archive with its date picker open on a month.](images/com.pagesuite.PSReader/archive-date-picker~dark@2x.png)
 
 **iPad:**
 
-![An edition archive with its date picker open on a month.](images/com.pagesuite.PSReader/archive-date-picker-ipad@2x.png)
+![An edition archive with its date picker open on a month.](images/com.pagesuite.PSReader/archive-date-picker-ipad~dark@2x.png)
 
 The configuration reaches the rest of the carousel too. Every reader the
 carousel opens, from bookmarks, downloads, and search included, gets its
@@ -183,29 +183,47 @@ let carousel = CarouselViewController(globalConfig: globalConfig, sections: sect
 You can mix both kinds, and dynamic archives, in one carousel. Each
 [`CarouselViewController.ContentType`](/documentation/PSReader/CarouselViewController/ContentType) is one screen:
 
-|Content type                                 |Shows                                                                                                                                      |
-|---------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-|`.feedArchive(guid:publicationName:config:)` |One publication’s editions, from its publication GUID. The publication name defaults to the section or subsection name.                    |
-|`.feedPublicationKiosk(publications:config:)`|A grid of publications, each a ``doc://com.pagesuite.PSReader/documentation/PSReader/KioskFeedPublication``. Tapping one opens its archive.|
-|`.bookmarks(type:config:)`                   |The user’s bookmarked pages and articles. See <doc://com.pagesuite.PSReader/documentation/PSReader/Bookmarks>.                             |
-|`.downloads(type:config:)`                   |Editions downloaded for offline reading. See <doc://com.pagesuite.PSReader/documentation/PSReader/Downloads-and-Offline-Reading>.          |
-|`.search(config:)`                           |Search across the carousel’s publications. See <doc://com.pagesuite.PSReader/documentation/PSReader/Search>.                               |
+|Content type                                            |Shows                                                                                                                                      |
+|--------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+|`.feedArchive(guid:publicationName:supplements:config:)`|One publication’s editions, from its publication GUID. The publication name defaults to the section or subsection name.                    |
+|`.feedPublicationKiosk(publications:config:)`           |A grid of publications, each a ``doc://com.pagesuite.PSReader/documentation/PSReader/KioskFeedPublication``. Tapping one opens its archive.|
+|`.bookmarks(type:config:)`                              |The user’s bookmarked pages and articles. See <doc://com.pagesuite.PSReader/documentation/PSReader/Bookmarks>.                             |
+|`.downloads(type:config:)`                              |Editions downloaded for offline reading. See <doc://com.pagesuite.PSReader/documentation/PSReader/Downloads-and-Offline-Reading>.          |
+|`.search(config:)`                                      |Search across the carousel’s publications. See <doc://com.pagesuite.PSReader/documentation/PSReader/Search>.                               |
 
 None of these needs a shortcode, but nothing comes from PageSuite either:
 an archive shows a date picker only when you set
-[`datePicker`](/documentation/PSReader/ArchiveConfiguration/datePicker), for example. Sections you define use
+[`datePicker`](/documentation/PSReader/ArchiveConfiguration/datePicker), for example.
+
+To show a publication’s supplements, name their publication groups in
+`supplements`. The archive adds a row of the latest edition of each
+publication in those groups below the publication’s latest edition, titled
+with [`LocalizedStringKey.supplementsTitle`](/documentation/PSReader/LocalizedStringKey/supplementsTitle) and styled with
+[`supplementsTitleLabel`](/documentation/PSReader/ArchiveConfiguration/supplementsTitleLabel) and
+[`supplementsBackgroundColor`](/documentation/PSReader/ArchiveConfiguration/supplementsBackgroundColor). The groups are
+listed from [`supplementGroupsDomain`](/documentation/PSReader/ArchiveConfiguration/supplementGroupsDomain). A group that
+lists nothing adds no row:
+
+```swift
+.section(.init(
+    name: "Today",
+    type: .feedArchive(
+        guid: "PUBLICATION_GUID",
+        supplements: ["SUPPLEMENTS_GROUP_GUID"]
+    )
+))
+``` Sections you define use
 the app configuration a dynamic archive in the same carousel loads. A
 carousel without one has no app configuration unless you set it, which
 in-article adverts and a few other features need; see
-[The App Configuration](/documentation/PSReader/Configuring-the-Prebuilt-UI#The-App-Configuration).
+<doc:Configuring-the-Prebuilt-UI#The-App-Configuration>.
 
 > Replica: Two content types show publications on the legacy replica
 > system. `.replicaArchive(guid:supplements:config:)` lists a replica
-> publication’s editions from its replica publication GUID. Name
-> supplement publications in `supplements` to add a row of their latest
-> editions below the publication’s latest edition, titled with
-> ``doc://com.pagesuite.PSReader/documentation/PSReader/LocalizedStringKey/supplementsTitle``:
-> 
+> publication's editions from its replica publication GUID. Its
+> `supplements` are replica publication groups, and the row shows only
+> the supplements scheduled for the current weekday:
+>
 > ```swift
 > .section(.init(
 >     name: "Today",
@@ -215,9 +233,9 @@ in-article adverts and a few other features need; see
 >     )
 > ))
 > ```
-> 
+>
 > `.replicaPublicationKiosk(publications:config:)` is a kiosk of
-> ``doc://com.pagesuite.PSReader/documentation/PSReader/KioskReplicaPublication`` entries. See <doc://com.pagesuite.PSReader/documentation/PSReader/Identifiers>.
+> ``KioskReplicaPublication`` entries. See <doc:Identifiers>.
 
 ## Configuring One Section
 
@@ -243,13 +261,14 @@ A kiosk’s configuration applies to every publication in it, unless a
 ## Adding a Header
 
 Pass a view controller as `header` to pin it above the section ribbon,
-such as a bar with your logo. Set
-[`hidesHeaderOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesHeaderOnScroll) to slide it away as the
-user scrolls down, and back when they scroll up or change section:
+such as a bar with your logo. Include
+[`header`](/documentation/PSReader/CarouselConfiguration/ScrollHiding/header) in
+[`hidesOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesOnScroll) to slide it away as the user
+scrolls down, and back when they scroll up or change section:
 
 ```swift
 var carouselConfig = CarouselConfiguration(globalConfig: globalConfig)
-carouselConfig.hidesHeaderOnScroll = true
+carouselConfig.hidesOnScroll = .header
 
 let carousel = CarouselViewController(
     globalConfig: globalConfig,
@@ -262,6 +281,15 @@ let carousel = CarouselViewController(
 `BrandHeaderViewController` stands for your own view controller. The
 carousel sizes the header from its view’s Auto Layout constraints, so give
 the view’s content constraints that determine its height.
+
+On iOS 27 and later, the carousel can hide your navigation bar too, with
+the ribbons taking its place: include
+[`navigationBar`](/documentation/PSReader/CarouselConfiguration/ScrollHiding/navigationBar) in
+[`hidesOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesOnScroll). The carousel needs to sit in your
+own navigation controller, laid out under the bar: set
+[`embedInNavigationController`](/documentation/PSReader/CarouselConfiguration/embedInNavigationController) to `false` and
+include `.top` in [`ignoreSafeArea`](/documentation/PSReader/CarouselConfiguration/ignoreSafeArea). Without a
+header, the bar alone hides.
 
 ## Presenting the Carousel Modally
 
@@ -282,8 +310,9 @@ present(carousel, animated: true)
 
 Style the button with
 [`dismissButton(size:insets:position:tintColor:image:)`](/documentation/PSReader/ButtonConfiguration/dismissButton(size:insets:position:tintColor:image:)).
-Leave [`hidesHeaderOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesHeaderOnScroll) at its default,
-`false`, so the button never scrolls out of reach.
+Leave [`header`](/documentation/PSReader/CarouselConfiguration/ScrollHiding/header) out of
+[`hidesOnScroll`](/documentation/PSReader/CarouselConfiguration/hidesOnScroll), as it is by default, so the button
+never scrolls out of reach.
 
 ## Fitting the Carousel Into Your Layout
 

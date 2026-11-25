@@ -24,8 +24,9 @@
 The framework’s default, webview-only renderer for advert pages
 (`advert_html` / `advert_third_party`). No third-party native SDKs are
 involved — third-party ad tech (htlbid/aditude) runs inside the webview
-via the PageSuite hosted loader. Google Ad Manager pages have no
-framework default: clients supply a native Google ad through
+via the PageSuite hosted loader. Google Ad Manager pages, and pages
+for providers the framework doesn’t know, have no framework default:
+clients supply a native advert through
 `PSEditionReaderViewController.AdvertDelegate.advertViewController(forPage:)`. This class is
 public so overriding delegates can still fall back to it selectively.
 

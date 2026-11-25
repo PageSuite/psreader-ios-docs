@@ -44,7 +44,7 @@ Set [`onAppear`](/documentation/PSReader/DefaultCommentTooltipViewController/onA
 
 ### Creating a Tooltip
 
-[`init(text:font:preferredWidth:foregroundColor:backgroundColor:)`](/documentation/PSReader/DefaultCommentTooltipViewController/init(text:font:preferredWidth:foregroundColor:backgroundColor:))
+[`init(text:font:preferredWidth:foregroundColor:backgroundColor:eyebrow:title:accentColor:)`](/documentation/PSReader/DefaultCommentTooltipViewController/init(text:font:preferredWidth:foregroundColor:backgroundColor:eyebrow:title:accentColor:))
 
 Creates a new tooltip view controller.
 

@@ -71,10 +71,14 @@ HTML template, or image creatives). To render nothing for a page,
 return an empty view controller instead of `nil`.
 
 > Important: Google Ad Manager advert pages
-> (`page.advertProvider == .googleAdManager`) have **no** built-in
-> rendering — they are left blank unless this method supplies a view
-> controller (for example, one hosting a native Google Mobile Ads
-> banner).
+> (`page.advertProvider == .googleAdManager`) and pages for custom
+> providers (`page.advertProvider == .custom("freestar")`, for
+> example) have **no** built-in rendering. Supply a view controller
+> here (for example, one hosting a native Google Mobile Ads banner,
+> or an AppLovin MAX banner built from
+> ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEPage/thirdPartyAdvertConfig``) and claim the provider in
+> ``doc://com.pagesuite.PSReader/documentation/PSReader/AdvertDelegate/canRenderAdvertPage(_:inPublished:edition:)``; otherwise the
+> reader leaves the page out of the page flow.
 
 > Note: The pager preloads pages while they are still off screen, so
 > UIKit appearance callbacks like `viewDidAppear` fire before the
@@ -94,6 +98,8 @@ func advertViewController(
     switch page.advertProvider {
     case .googleAdManager:
         return MyGAMPageAdVC(config: page.advertConfig)
+    case .custom("freestar"):
+        return MyFreestarPageAdVC(config: page.thirdPartyAdvertConfig)
     default:
         return nil // built-in webview rendering
     }

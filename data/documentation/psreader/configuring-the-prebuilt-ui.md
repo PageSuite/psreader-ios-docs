@@ -192,6 +192,10 @@ app configuration, a few of its values win over yours:
   it `nil`. Set one to use it for every publication in the archive.
 - ``doc://com.pagesuite.PSReader/documentation/PSReader/ReaderConfiguration/baseURL`` and ``doc://com.pagesuite.PSReader/documentation/PSReader/GlobalConfiguration/remoteConfig``
   are replaced with the configured values.
+- A publication’s supplements row comes from the publication groups set
+  on its archive in PageSuite. When the publication has its own published
+  domain, ``doc://com.pagesuite.PSReader/documentation/PSReader/ArchiveConfiguration/supplementGroupsDomain`` is set to it as
+  well.
 
 Everything else in your configuration still applies.
 

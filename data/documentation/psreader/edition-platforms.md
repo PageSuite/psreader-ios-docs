@@ -44,7 +44,7 @@ system “feed”, its old name; see [Historic API Names](/documentation/PSReade
 
 
 
-![The reader showing a classic PDF edition on the current system.](images/com.pagesuite.PSReader/reader-classic-pdf@2x.png)
+![The reader showing a classic PDF edition on the current system.](images/com.pagesuite.PSReader/reader-classic-pdf~dark@2x.png)
 
 
 

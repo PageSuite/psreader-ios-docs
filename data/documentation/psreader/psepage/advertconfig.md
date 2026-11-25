@@ -30,6 +30,7 @@ var advertConfig: [String : Any]?
 
 ## Discussion
 
-Its keys depend on [`advertProvider`](/documentation/PSReader/PSEPage/advertProvider). Google Ad Manager pages have no
-built-in rendering: build a [`PSEGAMAdvertConfig`](/documentation/PSReader/PSEGAMAdvertConfig) from this
-dictionary and request the ad yourself.
+Its keys depend on [`advertProvider`](/documentation/PSReader/PSEPage/advertProvider); [`thirdPartyAdvertConfig`](/documentation/PSReader/PSEPage/thirdPartyAdvertConfig)
+reads the ad unit, sizes and targeting whatever the provider. Google
+Ad Manager and Freestar pages have no built-in rendering: request
+the ad yourself from that configuration.

@@ -35,7 +35,7 @@ window.rootViewController = carousel
 
 **iPhone:**
 
-![The carousel showing a dynamic archive: the section ribbon, subsection pills, and a grid of edition covers.](images/com.pagesuite.PSReader/carousel-dynamic-archive~dark@2x.png)
+![The carousel showing a dynamic archive: the section ribbon, subsection pills, and a grid of edition covers.](images/com.pagesuite.PSReader/carousel-dynamic-archive@2x.png)
 
 **iPad:**
 

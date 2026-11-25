@@ -72,11 +72,15 @@ Label configuration for the date selection button that displays the currently se
 
 [`dateButtonForegroundColor`](/documentation/PSReader/ArchiveDatePickerConfiguration/dateButtonForegroundColor)
 
-Text color of the date selection button.
+Color of the date selection button’s icons.
 
 [`dateButtonBackgroundColor`](/documentation/PSReader/ArchiveDatePickerConfiguration/dateButtonBackgroundColor)
 
 Background color of the date selection button.
+
+[`dateButtonBorderColor`](/documentation/PSReader/ArchiveDatePickerConfiguration/dateButtonBorderColor)
+
+Color of the date selection button’s outline.
 
 ### Clear Button
 

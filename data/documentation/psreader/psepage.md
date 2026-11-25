@@ -56,7 +56,7 @@ The GUID of the edition the page came from.
 
 The section this page belongs to. This value serves as both the
 section’s display name and the match key for
-[`scrollTo(sectionGUID:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(sectionGUID:source:))
+[`scrollTo(sectionGUID:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(sectionGUID:source:animation:))
 (compared case-insensitively).
 
 [`sectionColor`](/documentation/PSReader/PSEPage/sectionColor)
@@ -159,8 +159,8 @@ The page’s flow level; article pages report `article`.
 [`advertProvider`](/documentation/PSReader/PSEPage/advertProvider)
 
 The provider serving this advert page, parsed from
-[`advertType`](/documentation/PSReader/PSEPage/advertType); `nil` for non-advert pages and unknown
-providers.
+[`advertType`](/documentation/PSReader/PSEPage/advertType); `nil` for pages with no advert type. A type
+the SDK doesn’t know is [`PSEAdvertProvider.custom(_:)`](/documentation/PSReader/PSEAdvertProvider/custom(_:)).
 
 [`advertType`](/documentation/PSReader/PSEPage/advertType)
 

@@ -23,7 +23,7 @@
 
 The section this page belongs to. This value serves as both the
 section’s display name and the match key for
-[`scrollTo(sectionGUID:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(sectionGUID:source:))
+[`scrollTo(sectionGUID:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(sectionGUID:source:animation:))
 (compared case-insensitively).
 
 ```

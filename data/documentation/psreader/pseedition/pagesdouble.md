@@ -21,8 +21,10 @@
 
 # pagesDouble
 
-The spreads the reader pages between in double-page mode.
+The spreads the reader pages between in double-page mode, without
+the pages [`applyPageFilter(_:)`](/documentation/PSReader/PSEEdition/applyPageFilter(_:)) rules out. Assigning sets the
+spreads as built; reading applies the filter.
 
 ```
-var pagesDouble: [PSEPageSpread]
+var pagesDouble: [PSEPageSpread] { get set }
 ```

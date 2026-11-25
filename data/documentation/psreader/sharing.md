@@ -36,7 +36,7 @@ let globalConfig = GlobalConfiguration(
 )
 ```
 
-![The share sheet presented from the reader.](images/com.pagesuite.PSReader/share-sheet@2x.png)
+![The share sheet presented from the reader.](images/com.pagesuite.PSReader/share-sheet~dark@2x.png)
 
 The reader shows its share button only on pages the delegate can share.
 On a double-page spread it asks about the spread’s reference page, which

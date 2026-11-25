@@ -408,8 +408,8 @@ and the page number when the edition has none. Use it rather than
 `0` for advert pages; see [The Edition Model](/documentation/PSReader/The-Edition-Model).
 
 Programmatic navigation maps directly: `scrollToPage(index)` →
-[`scrollTo(index:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(index:source:)) (spread index),
-plus richer overloads by page, GUID, article, and section.
+[`scrollTo(index:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(index:source:animation:))
+(spread index), plus richer overloads by page, GUID, article, and section.
 `scrollToNextPage`/`scrollToPrevPage` become `scrollTo(index:)` arithmetic
 on the current spread index.
 

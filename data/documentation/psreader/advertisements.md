@@ -61,10 +61,10 @@ let globalConfig = GlobalConfiguration(
 method to show no banner.
 
 Advert pages render out of the box, so most apps implement the page method
-for one reason: Google Ad Manager pages stay blank until you supply a view
-controller that requests the ad, typically with the Google Mobile Ads SDK.
-The same method can replace the built-in rendering of other advert pages
-too. [`isAdvertPage`](/documentation/PSReader/PSEPage/isAdvertPage) is `true` for advert pages, and
+for one reason: Google Ad Manager and Freestar pages have no built-in
+rendering, so they need a view controller that requests the ad, typically
+with the Google Mobile Ads SDK or the AppLovin MAX SDK. The same method can
+replace the built-in rendering of other advert pages too. [`isAdvertPage`](/documentation/PSReader/PSEPage/isAdvertPage) is `true` for advert pages, and
 [`advertProvider`](/documentation/PSReader/PSEPage/advertProvider) names the ad technology that serves each one.
 
 ## Prebuilt Banners
@@ -136,16 +136,17 @@ ways:
 
 The built-in rendering depends on the page’s provider:
 
-|Advert page                                                                                                                                                        |Built-in rendering                                                                                                                                                      |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|`advert_html` without a provider or configuration                                                                                                                  |The page’s HTML, or its external URL, filling the page.                                                                                                                 |
-|``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider/image``                                                                                    |The image from the page’s ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEPage/advertConfig``, fitted to the page and linked when the configuration has a link.|
-|``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider/htlbid``, ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider/aditude``|A fixed-size ad slot under an advertisement label, served in a web view through a hosted loader.                                                                        |
-|``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider/googleAdManager``                                                                          |Nothing. The page stays blank unless your delegate supplies a view controller.                                                                                          |
+|Advert page                                                                                                                                                                    |Built-in rendering                                                                                                                                                                  |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|`advert_html` without a provider or configuration                                                                                                                              |The page’s HTML, or its external URL, filling the page.                                                                                                                             |
+|``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider/image``                                                                                                |The image from the page’s ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEPage/advertConfig``, fitted to the page and linked when the configuration has a link.            |
+|``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider/htlbid``, ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider/aditude``            |A fixed-size ad slot under an advertisement label, served in a web view through a hosted loader.                                                                                    |
+|``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider/googleAdManager``, ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider/custom(_:)``|Nothing. The page is left out of the page flow unless your delegate claims it; see <doc://com.pagesuite.PSReader/documentation/PSReader/Advertisements#Pages-the-Reader-Leaves-Out>.|
 
-A third-party page whose provider the SDK doesn’t recognize renders
-nothing either. The hosted-loader providers also read your app
-configuration: its ad-stack scripts take precedence over the page’s own
+A provider the SDK doesn’t recognize, Freestar for example, arrives as
+[`PSEAdvertProvider.custom(_:)`](/documentation/PSReader/PSEAdvertProvider/custom(_:)) carrying its advert type, so your delegate
+can serve a provider of your own with `case .custom("freestar")`. The
+hosted-loader providers also read your app configuration: its ad-stack scripts take precedence over the page’s own
 copy, and when neither the page nor [`baseURL`](/documentation/PSReader/ReaderConfiguration/baseURL) has a
 base URL, its advert domain gives the page the web origin ad serving
 needs. A dynamic archive provides the configuration; elsewhere, set it as
@@ -159,7 +160,45 @@ links in a Safari view controller (see [Links](/documentation/PSReader/Media-and
 
 To serve a Google Ad Manager page, build a [`PSEGAMAdvertConfig`](/documentation/PSReader/PSEGAMAdvertConfig) from the
 page’s [`advertConfig`](/documentation/PSReader/PSEPage/advertConfig). It carries the ad zone, ad section, and
-sizes to request, as the sample in the next section shows.
+sizes to request, as the sample in the next section shows. For any other
+provider, Freestar or one of your own, [`thirdPartyAdvertConfig`](/documentation/PSReader/PSEPage/thirdPartyAdvertConfig)
+gives the same essentials whatever the key names: the ad unit, the sizes,
+the placement name, and the request’s key-value targeting, with
+[`targeting(forSection:)`](/documentation/PSReader/PSEThirdPartyAdvertConfig/targeting(forSection:)) filling in the page’s
+section. Freestar, for instance, arrives as `.custom("freestar")` and
+serves app inventory through the AppLovin MAX SDK, which your app
+initializes with its own SDK key; the page’s ad unit is the MAX ad unit
+Freestar provisions for your app.
+
+## Pages the Reader Leaves Out
+
+The reader shows only pages it can render, and pages past the rest as if
+they weren’t there. Page numbering stays as published. It leaves out:
+
+- Pages whose type isn’t in ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEEdition/supportedPageTypes``, such as a
+  type introduced after this SDK version.
+- Third-party advert pages that have no built-in rendering, Google Ad
+  Manager and every ``doc://com.pagesuite.PSReader/documentation/PSReader/PSEAdvertProvider/custom(_:)`` provider, unless your
+  delegate claims them through
+  ``doc://com.pagesuite.PSReader/documentation/PSReader/AdvertDelegate/canRenderAdvertPage(_:inPublished:edition:)``:
+
+```swift
+func canRenderAdvertPage(_ page: PSEPage,
+                         inPublished published: PSEPublished,
+                         edition: PSEEdition) -> Bool {
+    page.advertProvider == .googleAdManager
+}
+```
+
+The reader asks when it opens an edition, once per page without built-in
+rendering, and again if you change the delegate afterwards. By default the
+answer comes from your page method: the page is kept if
+[`advertViewController(forAdvertPage:inPublished:edition:)`](/documentation/PSReader/AdvertDelegate/advertViewController(forAdvertPage:inPublished:edition:))
+returns a view controller for it, which the reader discards unshown. So a
+delegate that already serves Google Ad Manager pages keeps them without
+changes, a banner-only delegate skips them, and implementing
+`canRenderAdvertPage` only spares you building a view controller to
+answer. A reader with no advert delegate leaves all such pages out.
 
 [`loaderTemplateURL`](/documentation/PSReader/PSEDefaultAdvertConfiguration/loaderTemplateURL) returns the hosted
 loader the built-in rendering uses for each third-party provider. You
@@ -328,9 +367,20 @@ The ad-tech provider an advert page is served through.
 
 Google Ad Manager native advert configuration.
 
+[`PSEThirdPartyAdvertConfig`](/documentation/PSReader/PSEThirdPartyAdvertConfig)
+
+The provider-agnostic view of a third-party advert page’s configuration.
+
 [`PSEDefaultAdvertConfiguration`](/documentation/PSReader/PSEDefaultAdvertConfiguration)
 
 Overridable defaults for the framework-provided advert renderer.
+
+[`supportedPageTypes`](/documentation/PSReader/PSEEdition/supportedPageTypes)
+
+The page types the reader can render. A page of any other type is
+left out of the spreads, so a type this SDK predates pages past
+cleanly instead of rendering as a broken web page. [`pages`](/documentation/PSReader/PSEEdition/pages) keeps
+every page as published.
 
 [`PSEAdvertContentViewController`](/documentation/PSReader/PSEAdvertContentViewController)
 

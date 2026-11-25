@@ -21,8 +21,10 @@
 
 # pagesSingle
 
-The spreads the reader pages between in single-page mode.
+The spreads the reader pages between in single-page mode, without
+the pages [`applyPageFilter(_:)`](/documentation/PSReader/PSEEdition/applyPageFilter(_:)) rules out. Assigning sets the
+spreads as built; reading applies the filter.
 
 ```
-var pagesSingle: [PSEPageSpread]
+var pagesSingle: [PSEPageSpread] { get set }
 ```

@@ -54,8 +54,9 @@ from layers you can replace one at a time:
   `AVSpeechSynthesizer`.
 - **Formatter.** A ``doc://com.pagesuite.PSReader/documentation/PSReader/TextToSpeechArticleFormatter`` turns an article into
   the text to speak. ``doc://com.pagesuite.PSReader/documentation/PSReader/DefaultTextToSpeechArticleFormatter`` reads the
-  headline, subheadline, and byline, then the body’s paragraphs and
-  headings, with the HTML removed.
+  headline, subheadline, and byline, then the body with the HTML removed:
+  its paragraphs, lists, and headings, or all of its text when it has no
+  paragraphs.
 - **Audio session.** An ``doc://com.pagesuite.PSReader/documentation/PSReader/AudioSessionProvider`` activates the shared
   `AVAudioSession` before playback and deactivates it afterwards.
 

@@ -61,5 +61,6 @@ URL from your media delegate’s `baseURL(for:)`, then the app
 configuration’s advert domain, then its edition base URL.
 
 Returns `nil` for Google Ad Manager pages, third-party pages whose
-provider has no hosted loader, image adverts without a valid
-configuration, and pages with no content to load.
+provider has no hosted loader (including every custom provider),
+image adverts without a valid configuration, and pages with no
+content to load.

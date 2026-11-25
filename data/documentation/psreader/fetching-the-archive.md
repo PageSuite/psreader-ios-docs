@@ -228,6 +228,27 @@ let latestCovers = try await withThrowingTaskGroup(of: (String, PSEPublished).se
 }
 ```
 
+## Show Supplements
+
+A publication’s supplements are grouped in PageSuite as a publication
+group. [`PublicationGroupService`](/documentation/PSReader/PublicationGroupService) lists the latest edition of each
+publication in a group, with a cover rendered at the width you ask for.
+The listing only identifies editions, so resolve each one you open with
+[`published(forEditionGUID:)`](/documentation/PSReader/FeedEditionService/published(forEditionGUID:)) and fill in the
+publication from the listing:
+
+```swift
+let supplements = try await PublicationGroupService().latestEditions(groupGUID: "SUPPLEMENTS_GROUP_GUID")
+
+for supplement in supplements {
+    let published = try await service.published(forEditionGUID: supplement.editionGUID)
+    published.applicationGUID = supplement.publicationGUID
+    published.publicationName = supplement.publicationName
+}
+```
+
+A group of legacy replica publications, or an unknown GUID, lists nothing.
+
 ## Resolve an Edition GUID
 
 Search results and deep links often carry only an edition GUID. Resolve it
@@ -252,4 +273,14 @@ yourself, such as building your own index or search over them.
 
 Fetches catalogs and content of editions on PageSuite’s current system
 for an account.
+
+### Fetching Supplements
+
+[`PublicationGroupService`](/documentation/PSReader/PublicationGroupService)
+
+Lists the publications in a publication group.
+
+[`PublicationGroupEdition`](/documentation/PSReader/PublicationGroupEdition)
+
+The latest edition of one publication in a publication group.
 

@@ -13,6 +13,91 @@
 
 Move your app from one SDK release to the next: the breaking changes in each release, and what to change in your code.
 
+## v26.9.0
+
+**Xcode 27.2 and iOS 15**
+
+The SDK is now built with Xcode 27.2 and Swift 6.4.2, so build your app
+with Xcode 27.2 or later: Xcode 26 can’t import the framework. Xcode 27
+can’t build for iOS versions before 15, so the SDK now needs iOS 15 or
+later, up from iOS 13:
+
+- Raise your app’s deployment target to iOS 15.
+- With Swift Package Manager, a package of yours that depends on
+  `PSReaderSDK` needs `platforms: [.iOS(.v15)]` or later. The SDK’s
+  package now needs Swift tools version 6.4.2, so earlier versions of
+  Xcode can’t resolve it. Your own package can keep its tools version.
+- With CocoaPods, set `platform :ios, '15.0'` or later in your Podfile,
+  and add a `post_install` hook that raises the Apryse pods to iOS 15:
+  their podspecs declare iOS 10, which Xcode 27 can’t build for.
+  <doc://com.pagesuite.PSReader/documentation/PSReader/Getting-Started#Install-the-SDK> shows the Podfile.
+
+**Advert providers**
+
+[`PSEAdvertProvider`](/documentation/PSReader/PSEAdvertProvider) has a new case, [`PSEAdvertProvider.custom(_:)`](/documentation/PSReader/PSEAdvertProvider/custom(_:)),
+for advert types the SDK doesn’t know, which used to parse to `nil`.
+Breaking change: `init(rawValue:)` now always returns a provider, so
+drop the unwrapping:
+
+```swift
+// Before
+guard let provider = PSEAdvertProvider(rawValue: type) else { return nil }
+
+// After
+let provider = PSEAdvertProvider(rawValue: type)
+```
+
+A switch over every case needs a branch for `.custom`, which carries the
+type lowercased, for example `case .custom("freestar"):`.
+[`advertProvider`](/documentation/PSReader/PSEPage/advertProvider) is still `nil` for pages without an advert
+type.
+
+**Advert pages the reader leaves out**
+
+The reader now leaves out advert pages it has no way to show, rather than
+showing them blank. For Google Ad Manager pages and custom providers, it
+asks [`canRenderAdvertPage(_:inPublished:edition:)`](/documentation/PSReader/AdvertDelegate/canRenderAdvertPage(_:inPublished:edition:)),
+which by default checks whether your delegate returns a view controller
+for the page. If your delegate renders Google Ad Manager pages, nothing
+changes. Without one, those pages no longer appear.
+See [Pages the Reader Leaves Out](/documentation/PSReader/Advertisements#Pages-the-Reader-Leaves-Out).
+
+**The onboarding walkthrough**
+
+The reader’s walkthrough is on by default, so users see it once after
+updating. To turn it off:
+
+```swift
+readerConfig.onboarding.isEnabled = false
+```
+
+The walkthrough’s Comments step replaces the default article comment
+tooltip, so
+[`articleCommentTooltipViewController(inEdition:)`](/documentation/PSReader/DefaultCommentingProvider/articleCommentTooltipViewController(inEdition:))
+now returns `nil`. A subclass that overrides it keeps its own tooltip.
+
+**The archive’s date button**
+
+The date button is now an outlined pill, and the divider above the date
+picker is gone:
+
+- ``doc://com.pagesuite.PSReader/documentation/PSReader/ArchiveDatePickerConfiguration/dateButtonForegroundColor`` colors
+  only the button’s icons. Set the text’s color in
+  ``doc://com.pagesuite.PSReader/documentation/PSReader/ArchiveDatePickerConfiguration/dateButtonLabel``.
+- ``doc://com.pagesuite.PSReader/documentation/PSReader/ArchiveDatePickerConfiguration/dateButtonBackgroundColor`` defaults
+  to clear, and ``doc://com.pagesuite.PSReader/documentation/PSReader/ArchiveDatePickerConfiguration/dateButtonBorderColor``
+  colors the outline.
+- ``doc://com.pagesuite.PSReader/documentation/PSReader/ArchiveDatePickerConfiguration/dividerColor`` is deprecated and has
+  no effect.
+
+**New image and string cases**
+
+[`ImageResourceName`](/documentation/PSReader/ImageResourceName) has a new case, [`ImageResourceName.onboarding`](/documentation/PSReader/ImageResourceName/onboarding),
+for the walkthrough’s settings menu row. An [`AssetDelegate`](/documentation/PSReader/AssetDelegate) that
+switches over every case without a `default` needs it. New
+[`LocalizedStringKey`](/documentation/PSReader/LocalizedStringKey) cases cover the walkthrough’s text and the legacy
+replica reader’s page and article browser titles. See [Localization](/documentation/PSReader/Localization).
+
 ## v26.8.0
 
 **One module: PSReader**

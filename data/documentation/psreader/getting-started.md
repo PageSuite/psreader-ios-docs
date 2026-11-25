@@ -69,7 +69,8 @@ continue with [Prebuilt UI](/documentation/PSReader/Prebuilt-UI) or [Custom UI](
 
 ## Requirements
 
-- iOS 13 or later.
+- Xcode 27.2 or later.
+- iOS 15 or later.
 - An API key and an account GUID from PageSuite, plus either a shortcode
   or the publication GUIDs of the titles you’ll show. <doc://com.pagesuite.PSReader/documentation/PSReader/Identifiers>
   explains each one.
@@ -89,7 +90,7 @@ Apryse SDK, which renders PDF pages.
 The package brings in the Apryse SDK for you. In a `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/PageSuite/psreader-swift-package.git", exact: "26.8.0")
+.package(url: "https://github.com/PageSuite/psreader-swift-package.git", exact: "26.9.0")
 
 // In your target's dependencies:
 .product(name: "PSReaderSDK", package: "psreader-swift-package")
@@ -98,9 +99,12 @@ The package brings in the Apryse SDK for you. In a `Package.swift`:
 **CocoaPods**
 
 The pod is `PSReaderUI2`, in PageSuite’s specs repository. Add the Apryse
-pods from their podspecs:
+pods from their podspecs. Those declare iOS 10, which Xcode 27 can’t build
+for, so the `post_install` hook raises them to iOS 15:
 
 ```ruby
+platform :ios, '15.0'
+
 source 'https://github.com/PageSuite/psreader-specs.git'
 source 'https://cdn.cocoapods.org/'
 
@@ -109,7 +113,17 @@ target 'YourApp' do
 
   pod 'PDFTron', podspec: 'https://www.pdftron.com/downloads/ios/cocoapods/xcframeworks/pdftron/11.5.0.85515.podspec'
   pod 'PDFTronTools', podspec: 'https://www.pdftron.com/downloads/ios/cocoapods/xcframeworks/pdftron-tools/11.5.0.85515.podspec'
-  pod 'PSReaderUI2', '26.8.0'
+  pod 'PSReaderUI2', '26.9.0'
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 15.0
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      end
+    end
+  end
 end
 ```
 

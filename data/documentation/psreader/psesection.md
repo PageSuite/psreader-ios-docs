@@ -30,7 +30,7 @@ A named section of an edition (news, sport, …) grouping its articles.
 ## Overview
 
 Build section navigation from [`sections`](/documentation/PSReader/PSEEdition/sections) and jump with
-[`scrollTo(section:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(section:source:)).
+[`scrollTo(section:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(section:source:animation:)).
 
 ## Topics
 

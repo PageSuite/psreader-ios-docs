@@ -13,7 +13,7 @@
     "modules" : [
       "PSReader"
     ],
-    "preciseIdentifier" : "s:8PSReader17PSEAdvertProviderO8rawValueACSgSS_tcfc"
+    "preciseIdentifier" : "s:8PSReader17PSEAdvertProviderO8rawValueACSS_tcfc"
   },
   "title" : "init(rawValue:)"
 }
@@ -21,6 +21,9 @@
 
 # init(rawValue:)
 
+Creates the provider for an advert type, matched case-insensitively.
+Unknown types become [`PSEAdvertProvider.custom(_:)`](/documentation/PSReader/PSEAdvertProvider/custom(_:)).
+
 ```
-init?(rawValue: String)
+init(rawValue: String)
 ```

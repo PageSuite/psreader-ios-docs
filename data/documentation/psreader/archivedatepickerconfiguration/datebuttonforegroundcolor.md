@@ -21,7 +21,7 @@
 
 # dateButtonForegroundColor
 
-Text color of the date selection button.
+Color of the date selection button’s icons.
 
 ```
 var dateButtonForegroundColor: UIColor

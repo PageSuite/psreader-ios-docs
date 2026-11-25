@@ -44,3 +44,9 @@ The edition object associated with the event.
 
 The page spread object associated with the event.
 
+[`page`](/documentation/PSReader/EventChannel/FeedEditionEventContext/page)
+
+The page within the spread that the event came from, such as the
+page an article was tapped on, or `nil` when the event concerns
+the whole spread.
+

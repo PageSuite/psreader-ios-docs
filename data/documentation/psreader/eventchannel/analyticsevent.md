@@ -108,6 +108,33 @@ Fires when a page is shared.
 
 Fires when a bookmarked article is shared.
 
+### Reader Interactions
+
+[`EventChannel.AnalyticsEvent.feedEditionContentBrowserOpen(_:)`](/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionContentBrowserOpen(_:))
+
+Fires when the user opens the reader’s contents browser.
+
+[`EventChannel.AnalyticsEvent.feedEditionContentBrowserSectionTapped(_:)`](/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionContentBrowserSectionTapped(_:))
+
+Fires when the user taps a section in the reader’s contents browser.
+
+[`EventChannel.AnalyticsEvent.feedEditionArticleTapped(_:_:)`](/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionArticleTapped(_:_:))
+
+Fires when the user taps an article on a page and the reader
+jumps to it.
+
+[`EventChannel.AnalyticsEvent.feedEditionLinkTapped(_:_:)`](/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionLinkTapped(_:_:))
+
+Fires when the user taps a link on a page.
+
+[`EventChannel.AnalyticsEvent.feedEditionPrint(_:)`](/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionPrint(_:))
+
+Fires when the user prints a page.
+
+[`EventChannel.AnalyticsEvent.feedEditionTextSizeChange(_:oldValue:newValue:)`](/documentation/PSReader/EventChannel/AnalyticsEvent/feedEditionTextSizeChange(_:oldValue:newValue:))
+
+Fires when the user changes the article text size.
+
 ### Search
 
 [`EventChannel.AnalyticsEvent.searchCompleted(_:)`](/documentation/PSReader/EventChannel/AnalyticsEvent/searchCompleted(_:))

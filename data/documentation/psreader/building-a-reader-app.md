@@ -17,7 +17,7 @@ then with your own reader screen on the core SDK.
 ## Overview
 
 The sample is one Xcode project with two small apps, one for each side of
-the SDK. Both read PAG802, PageSuite’s demo publication:
+the SDK. Both read your own publications:
 
 |App     |Side       |What it shows                                                        |Code                                                                    |
 |--------|-----------|---------------------------------------------------------------------|------------------------------------------------------------------------|
@@ -35,6 +35,15 @@ sides.
 1. In the `Config` folder, copy `Secrets.xcconfig.example` to
    `Secrets.xcconfig` and replace `API_KEY` with your API key. Git ignores
    `Secrets.xcconfig`, so your key stays out of source control.
+1. In `Shared/Sample.swift`, replace each `YOUR-` placeholder with your
+   own identifiers:
+- `shortcode`, for the carousel’s dynamic archive;
+- `accountGUID`, for every screen;
+- `publications`, the publication GUIDs your own screens list, each
+  with a section title, and a `publishedDomain` if the publication is
+  hosted on its own domain.
+   
+   <doc://com.pagesuite.PSReader/documentation/PSReader/Identifiers> explains where each one comes from.
 1. Open `PSReaderSample.xcodeproj`.
 1. Choose the **Prebuilt** or **Custom** scheme, and run it on a simulator
    or a device running iOS 15 or later.
@@ -49,9 +58,6 @@ PSReader.initialize(apiKey: Sample.apiKey)
 ```
 
 [Getting Started](/documentation/PSReader/Getting-Started) explains initialization.
-
-Every identifier the apps use, from the shortcode to the publication GUIDs,
-is in `Shared/Sample.swift`.
 
 ## Show the Carousel
 
@@ -86,10 +92,10 @@ let carousel = CarouselViewController(
 )
 ```
 
-![The sample's Prebuilt app showing the carousel with the demo publication's editions.](images/com.pagesuite.PSReader/sample-prebuilt-carousel~dark@2x.png)
+![The sample's Prebuilt app showing the carousel with a publication's editions.](images/com.pagesuite.PSReader/sample-prebuilt-carousel@2x.png)
 
 `.dynamicArchive` reads the archive’s layout from your app’s configuration
-at PageSuite, so PAG802’s three publications appear as three subsections
+at PageSuite, so your publications appear as its subsections
 without any GUIDs in your code. In an app that only needs the carousel,
 make it the window’s root view controller instead of a tab:
 
@@ -122,17 +128,19 @@ var archive: [(publication: Sample.Publication, editions: [PSEPublished])] = []
 // newest first, and editions published on the same day in
 // the backend's order. This list only needs them in order.
 // Passing the publication's name puts it on each edition,
-// for the reader screen's title.
+// for the reader screen's title. A publication hosted on
+// its own domain passes it; nil uses PageSuite's.
 for publication in Sample.publications {
     let dates = try await service.publishedEditions(
         publicationGUID: publication.guid,
-        publicationName: publication.name
+        publicationName: publication.name,
+        publishedDomain: publication.publishedDomain
     )
     archive.append((publication, dates.flatMap { $0.editions ?? [] }))
 }
 ```
 
-![The sample's own edition list, grouped by look, which opens the prebuilt reader.](images/com.pagesuite.PSReader/sample-prebuilt-edition-list@2x.png)
+![The sample's own edition list, grouped by publication, which opens the prebuilt reader.](images/com.pagesuite.PSReader/sample-prebuilt-edition-list~dark@2x.png)
 
 Each [`PSEPublished`](/documentation/PSReader/PSEPublished) carries what a row shows: its `name`, its
 `datePublished`, and [`image`](/documentation/PSReader/PSEPublished/image), the URL of its cover. The
@@ -161,8 +169,8 @@ the carousel’s own readers. A reader you open yourself takes it from
 ```swift
 // The carousel's dynamic archive loads your app configuration for
 // the carousel's own readers. Readers you open yourself read it
-// from the global configuration, so load it for them too: some of
-// the demo's pages show the masthead logo it names.
+// from the global configuration, so load it for them too: some
+// pages show the masthead logo it names.
 Task {
     globalConfig.remoteConfig = try? await AppConfigService().configuration(forShortcode: Sample.shortcode)
 }
@@ -172,7 +180,7 @@ Task {
 when it creates a reader, so every reader created after the configuration
 loads gets it. [Presenting the Prebuilt Reader](/documentation/PSReader/Presenting-the-Prebuilt-Reader) says which features
 read it. The Custom app loads none: its reader screen would take the logo
-from a media delegate rather than the configuration, and the demo uses
+from a media delegate rather than the configuration, and the sample uses
 none of the features that read the configuration there; see
 [Passing the App Configuration](/documentation/PSReader/Hosting-the-Reader#Passing-the-App-Configuration).
 
@@ -481,17 +489,7 @@ connection. To list them and open them again, see
 
 ## Read Every Kind of Edition
 
-The archive screen has a section for each look PAG802’s editions have:
-classic PDF, classic PDF with article pages, and responsive. All three
-publications are on PageSuite’s current edition system, and both apps
-open all three, the custom reader screen included.
+Editions on PageSuite’s current edition system come in three looks:
+classic PDF, classic PDF with article pages, and responsive. Both apps
+open all three with the same code, the custom reader screen included.
 [Edition Platforms](/documentation/PSReader/Edition-Platforms) explains how looks and systems relate.
-
-## Use Your Own Publication
-
-To see your own editions, change the identifiers in `Shared/Sample.swift`:
-
-- `shortcode`, for the carousel’s dynamic archive;
-- `accountGUID`, for every screen;
-- `publications`, the publication GUIDs your own screens list, each with a
-  section title.

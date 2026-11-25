@@ -34,7 +34,7 @@ let carousel = CarouselViewController(
 )
 ```
 
-![The bookmarks screen listing saved pages and articles.](images/com.pagesuite.PSReader/bookmarks-screen@2x.png)
+![The bookmarks screen listing saved pages and articles.](images/com.pagesuite.PSReader/bookmarks-screen~dark@2x.png)
 
 The reader’s bookmark button appears whenever the page on screen has
 something to bookmark ([Adding a Bookmark Button](/documentation/PSReader/Adding-a-Bookmark-Button) lists what each

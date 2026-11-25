@@ -284,7 +284,7 @@ and articles, as the prebuilt browser does.
 
 ## Navigating and Staying in Sync
 
-The browser jumps with [`scrollTo(page:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(page:source:)).
+The browser jumps with [`scrollTo(page:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(page:source:animation:)).
 Its `PageBrowserJump` token reaches the reader screen’s
 `willScrollTo(pageIndex:pagingMode:source:)`, so you can tell jumps from
 the browser apart from swipes; see [Navigating](/documentation/PSReader/Hosting-the-Reader#Navigating).

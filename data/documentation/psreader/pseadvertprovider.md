@@ -27,6 +27,12 @@ The ad-tech provider an advert page is served through.
 enum PSEAdvertProvider
 ```
 
+## Overview
+
+Providers the SDK knows have a case of their own; any other advert type
+arrives as [`PSEAdvertProvider.custom(_:)`](/documentation/PSReader/PSEAdvertProvider/custom(_:)) with the published string, so a page for a
+provider only your app knows still reaches your advert delegate.
+
 ## Topics
 
 ### Built-In Rendering
@@ -56,4 +62,14 @@ A Google Ad Manager advert. These pages have no built-in rendering:
 supply a view controller through [`AdvertDelegate`](/documentation/PSReader/AdvertDelegate) or
 [`PSEditionReaderViewController.AdvertDelegate`](/documentation/PSReader/PSEditionReaderViewController/AdvertDelegate-swift.protocol), configured with a
 [`PSEGAMAdvertConfig`](/documentation/PSReader/PSEGAMAdvertConfig).
+
+[`PSEAdvertProvider.custom(_:)`](/documentation/PSReader/PSEAdvertProvider/custom(_:))
+
+A provider the SDK doesn’t know, carrying the page’s advert type
+lowercased, for example `custom("freestar")`; match it with a
+lowercase literal. These pages have no
+built-in rendering: supply a view controller through
+[`AdvertDelegate`](/documentation/PSReader/AdvertDelegate) or [`PSEditionReaderViewController.AdvertDelegate`](/documentation/PSReader/PSEditionReaderViewController/AdvertDelegate-swift.protocol),
+built from [`thirdPartyAdvertConfig`](/documentation/PSReader/PSEPage/thirdPartyAdvertConfig), or the reader leaves
+the page out.
 

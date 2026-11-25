@@ -83,41 +83,42 @@ when the source’s content changed structurally.
 
 ### Navigating
 
-[`scrollTo(index:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(index:source:))
+[`scrollTo(index:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(index:source:animation:))
 
 Scrolls to the spread at `index` (a spread index in the active
-paging mode). The `source` token is echoed to [`PSEditionReaderViewController.ScrollDelegate`](/documentation/PSReader/PSEditionReaderViewController/ScrollDelegate-swift.protocol).
+paging mode). The `source` token is echoed to [`PSEditionReaderViewController.ScrollDelegate`](/documentation/PSReader/PSEditionReaderViewController/ScrollDelegate-swift.protocol),
+and `animation` sets whether the move animates.
 
-[`scrollToFront(source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollToFront(source:))
+[`scrollToFront(source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollToFront(source:animation:))
 
 Scrolls to the edition’s first spread.
 
-[`scrollTo(page:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(page:source:))
+[`scrollTo(page:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(page:source:animation:))
 
 Scrolls to the spread containing `page`. No-op if the page isn’t in
 the edition.
 
-[`scrollTo(pageGUID:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(pageGUID:source:))
+[`scrollTo(pageGUID:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(pageGUID:source:animation:))
 
 Scrolls to the spread containing the page with `pageGUID`. No-op if
 no page matches.
 
-[`scrollTo(article:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(article:source:))
+[`scrollTo(article:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(article:source:animation:))
 
 Scrolls to the spread presenting `article`. No-op if the article
 isn’t in the edition.
 
-[`scrollTo(articleGUID:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(articleGUID:source:))
+[`scrollTo(articleGUID:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(articleGUID:source:animation:))
 
 Scrolls to the spread presenting the article with `articleGUID`.
 No-op if no article matches.
 
-[`scrollTo(section:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(section:source:))
+[`scrollTo(section:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(section:source:animation:))
 
 Scrolls to the first article spread of `section`. No-op if the
 section isn’t in the edition.
 
-[`scrollTo(sectionGUID:source:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(sectionGUID:source:))
+[`scrollTo(sectionGUID:source:animation:)`](/documentation/PSReader/PSEditionReaderViewController/scrollTo(sectionGUID:source:animation:))
 
 Scrolls to the first article spread of the section with
 `sectionGUID`. No-op if no section matches.

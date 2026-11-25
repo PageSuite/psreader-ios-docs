@@ -22,8 +22,8 @@
 # advertProvider
 
 The provider serving this advert page, parsed from
-[`advertType`](/documentation/PSReader/PSEPage/advertType); `nil` for non-advert pages and unknown
-providers.
+[`advertType`](/documentation/PSReader/PSEPage/advertType); `nil` for pages with no advert type. A type
+the SDK doesn’t know is [`PSEAdvertProvider.custom(_:)`](/documentation/PSReader/PSEAdvertProvider/custom(_:)).
 
 ```
 var advertProvider: PSEAdvertProvider? { get }

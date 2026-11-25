@@ -98,6 +98,11 @@ Liquid Glass policy applied to the reader interface.
 
 Configuration for the reader’s navigation bar, including fonts, colors, and item styling.
 
+[`onboarding`](/documentation/PSReader/ReaderConfiguration/onboarding)
+
+Configuration for the walkthrough that introduces the navigation bar
+the first time the reader opens.
+
 [`contentBrowser`](/documentation/PSReader/ReaderConfiguration/contentBrowser)
 
 Configuration for the content browser used to navigate sections, pages, and articles within the reader.

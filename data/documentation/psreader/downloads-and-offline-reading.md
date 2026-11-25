@@ -34,7 +34,7 @@ let carousel = CarouselViewController(
 )
 ```
 
-![The downloads screen with one edition downloading and one downloaded.](images/com.pagesuite.PSReader/downloads-screen@2x.png)
+![The downloads screen with one edition downloading and one downloaded.](images/com.pagesuite.PSReader/downloads-screen~dark@2x.png)
 
 A tap on an edition’s download button downloads it, a tap during the
 download cancels it, and a tap on a downloaded edition deletes the copy.
